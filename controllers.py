@@ -49,15 +49,20 @@ def setup():
 def index():
     return dict(
         get_animals_url = URL('get_animals', signer=url_signer),
+        get_animal_url_url = URL('get_animal_url', signer=url_signer),
     )
 
 @action('get_animals')
 @action.uses(db)
 def get_animals():
     rows = db(db.animal).select().as_list()
-    for r in rows:
-        r['show_url'] = URL('show_animal', r['id'], signer=url_signer)
     return dict(animals=rows)
+
+@action('get_animal_url')
+@action.uses(db, url_signer, url_signer.verify())
+def get_animal_url():
+    animal_id = int(request.params.get('animal_id'))
+    return dict(url=URL('show_animal', animal_id, signer=url_signer))
 
 @action('show_animal/<animal_id:int>')
 @action.uses(db, url_signer.verify(), "show_animal.html")

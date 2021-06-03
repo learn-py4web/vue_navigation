@@ -19,10 +19,20 @@ let init = (app) => {
         return a;
     };
 
+    app.goto_animal = function (a_idx) {
+        let a = app.vue.animals[a_idx];
+        axios.get(get_animal_url_url, {params: {animal_id: a.id}})
+            .then(function (r) {
+                console.log("We got the URL:", r.data.url);
+                let a = document.createElement('a');
+                a.href = r.data.url;
+                a.click();
+            });
+    };
 
     // This contains all the methods.
     app.methods = {
-        // Complete as you see fit.
+        goto_animal: app.goto_animal,
     };
 
     // This creates the Vue instance.
