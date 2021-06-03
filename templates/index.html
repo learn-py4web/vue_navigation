@@ -8,7 +8,7 @@
 
 <div class="section" id="vue-target" v-cloak>
   <div v-for="a in animals" class="block">
-    <div class="button is-link">
+    <div class="button is-link" @click="goto_animal(a._idx)">
       {{a.animal_name}}
     </div>
   </div>
@@ -18,6 +18,7 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
   let get_animals_url = "[[=XML(get_animals_url)]]";
+  let show_animal_base_url = "[[=URL('show_animal')]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]

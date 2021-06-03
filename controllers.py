@@ -58,7 +58,7 @@ def get_animals():
     return dict(animals=rows)
 
 @action('show_animal/<animal_id:int>')
-@action.uses(db, "show_animal.html")
+@action.uses(db, url_signer.verify(), "show_animal.html")
 def show_animal(animal_id=None):
     a = db(db.animal.id == animal_id).select().first()
     return dict(name=("Not found" if a is None else a.animal_name))

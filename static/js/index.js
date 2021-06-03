@@ -19,10 +19,17 @@ let init = (app) => {
         return a;
     };
 
+    app.goto_animal = function (a_idx) {
+        let a = app.vue.animals[a_idx];
+        let a_url = show_animal_base_url + "/" + a.id;
+        let button = document.createElement('a');
+        button.href = a_url;
+        button.click();
+    }
 
     // This contains all the methods.
     app.methods = {
-        // Complete as you see fit.
+        goto_animal: app.goto_animal,
     };
 
     // This creates the Vue instance.
