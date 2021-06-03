@@ -9,7 +9,7 @@ let init = (app) => {
 
     // This is the Vue data.
     app.data = {
-        // Complete as you see fit.
+        animals: [],
     };
 
     app.enumerate = (a) => {
@@ -34,8 +34,9 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        // Put here any initialization code.
-        // Typically this is a server GET call to load the data.
+        axios.get(get_animals_url).then(function (r) {
+            app.vue.animals = app.enumerate(r.data.animals);
+        })
     };
 
     // Call to the initializer.

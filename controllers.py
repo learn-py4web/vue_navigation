@@ -33,10 +33,32 @@ from .models import get_user_email
 
 url_signer = URLSigner(session)
 
+ANIMALS = ["Dog", "Cat", "Horse", "Pig"]
+
+@action('setup')
+@action.uses(db)
+def setup():
+    """This simply sets up the db content for a small example."""
+    db(db.animal).delete()
+    for a in ANIMALS:
+        db.animal.insert(animal_name=a)
+    return "ok"
+
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
     return dict(
-        # COMPLETE: return here any signed URLs you need.
-        my_callback_url = URL('my_callback', signer=url_signer),
+        get_animals_url = URL('get_animals', signer=url_signer),
     )
+
+@action('get_animals')
+@action.uses(db)
+def get_animals():
+    rows = db(db.animal).select().as_list()
+    return dict(animals=rows)
+
+@action('show_animal/<animal_id:int>')
+@action.uses(db, "show_animal.html")
+def show_animal(animal_id=None):
+    a = db(db.animal.id == animal_id).select().first()
+    return dict(name=("Not found" if a is None else a.animal_name))

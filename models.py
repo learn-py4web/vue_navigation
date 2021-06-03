@@ -13,6 +13,9 @@ def get_user_email():
 def get_time():
     return datetime.datetime.utcnow()
 
+db.define_table('animal',
+                Field('animal_name'),
+                )
 
 ### Define your table below
 #
