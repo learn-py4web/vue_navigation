@@ -55,10 +55,12 @@ def index():
 @action.uses(db)
 def get_animals():
     rows = db(db.animal).select().as_list()
+    for r in rows:
+        r['show_url'] = URL('show_animal', r['id'], signer=url_signer)
     return dict(animals=rows)
 
 @action('show_animal/<animal_id:int>')
-@action.uses(db, "show_animal.html")
+@action.uses(db, url_signer.verify(), "show_animal.html")
 def show_animal(animal_id=None):
     a = db(db.animal.id == animal_id).select().first()
     return dict(name=("Not found" if a is None else a.animal_name))

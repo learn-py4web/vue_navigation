@@ -8,9 +8,9 @@
 
 <div class="section" id="vue-target" v-cloak>
   <div v-for="a in animals" class="block">
-    <div class="button is-link">
+    <a class="button is-link" :href="a.show_url">
       {{a.animal_name}}
-    </div>
+    </a>
   </div>
 </div>
 
