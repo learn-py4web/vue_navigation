@@ -45,7 +45,7 @@ def setup():
     return "ok"
 
 @action('index')
-@action.uses(db, auth, 'index.html')
+@action.uses('index.html', db, auth)
 def index():
     return dict(
         get_animals_url = URL('get_animals', signer=url_signer),
@@ -58,7 +58,7 @@ def get_animals():
     return dict(animals=rows)
 
 @action('show_animal/<animal_id:int>')
-@action.uses(db, "show_animal.html")
+@action.uses("show_animal.html", db)
 def show_animal(animal_id=None):
     a = db(db.animal.id == animal_id).select().first()
     return dict(name=("Not found" if a is None else a.animal_name))
